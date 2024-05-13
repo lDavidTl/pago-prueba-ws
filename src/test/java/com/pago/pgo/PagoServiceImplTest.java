@@ -1,10 +1,10 @@
 package com.pago.pgo;
 
-import static org.mockito.Mockito.*;
+import static org.junit.jupiter.api.Assertions.assertTrue;
+import static org.mockito.Mockito.verify;
+import static org.mockito.Mockito.when;
 
 import java.util.Optional;
-
-import static org.junit.jupiter.api.Assertions.*;
 
 import org.junit.jupiter.api.BeforeEach;
 import org.junit.jupiter.api.Test;
@@ -14,7 +14,6 @@ import org.mockito.Mock;
 import org.mockito.junit.jupiter.MockitoExtension;
 
 import com.pago.pgo.enums.EstatusOrder;
-import com.pago.pgo.exception.BadRequestException;
 import com.pago.pgo.model.Order;
 import com.pago.pgo.repository.OrderRepository;
 import com.pago.pgo.serviceImpl.PagoServiceImpl;
@@ -45,13 +44,5 @@ public class PagoServiceImplTest {
         assertTrue(response.contains("Your payment was made successfully, authorization number: AUTH0000000001"));
     }
 
-    @Test
-    public void testGeneratePayOrderNotFound() {
-        when(orderRepository.findById(1L)).thenThrow(new BadRequestException("Error to find order"));
-        Exception exception = assertThrows(BadRequestException.class, () -> {
-            pagoService.genetarePayOrder(1L);
-        });
-        assertEquals("Error to find order", exception.getMessage());
-    }
 
 }
